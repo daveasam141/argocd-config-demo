@@ -6,29 +6,31 @@ metadata:
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: homesite
 spec:
   project: default
   source:
     repoURL: https://github.com/daveasam141/argocd-config-demo.git
-    targetRevision: HEAD 
+    targetRevision: HEAD
     path: homesite
   destination:
     server: https://kubernetes.default.svc
     namespace: homesite
   syncPolicy:
-    automated: 
-      prune: true 
+    automated:
+      prune: true
       selfHeal: true
-      allowEmpty: false 
-    syncOptions: 
-    - Validate=true 
-    - CreateNamespace=true 
-    - PrunePropagationPolicy=foreground 
-    - PruneLast=true 
+      allowEmpty: false
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
     retry:
       limit: 5
       backoff:
-        duration: 5s 
+        duration: 5s
         factor: 2
-        maxDuration: 3m 
+        maxDuration: 3m
   revisionHistoryLimit: 10
