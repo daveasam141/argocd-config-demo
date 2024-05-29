@@ -4,10 +4,6 @@ kind: Application
 metadata:
   name: homesite
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-  labels:
-    name: homesite
 spec:
   project: default
   source:
