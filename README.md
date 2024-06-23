@@ -25,3 +25,7 @@ echo password: $(kubectl -n argocd get secret argocd-initial-admin-secret -o jso
 
 ### To log into argocd thriugh command line to connect it with the ui so you can deploy from git with argo from CL instead of ui
 argocd login 127.0.0.1:8080 --username admin --password TbCIanpAT5XR6CyT --insecure
+
+###  To sync an argocd deployment using cli 
+argocd app sync (appname)
+
