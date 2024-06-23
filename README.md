@@ -27,7 +27,7 @@ echo password: $(kubectl -n argocd get secret argocd-initial-admin-secret -o jso
 argocd login 127.0.0.1:8080 --username admin --password EmkI3eEe-bMdkQw6 --insecure
 
 ###  To sync an argocd deployment using cli 
-argocd app sync (appname)
+argocd --port-forward --port-forward-namespace=argocd app sync (appname)
 
 ### To log into argocd thriugh command line to connect it with the ui so you can deploy from git with argo from CL instead of ui
 argocd login 127.0.0.1:8080 --username admin --password UbtbfXjlatGMJ7TX --insecure
@@ -36,7 +36,7 @@ argocd login 127.0.0.1:8080 --username admin --password UbtbfXjlatGMJ7TX --insec
 argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 
 ### If your're getting a connection refused error with argocd include port forward in every argocd command 
-argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=UbtbfXjlatGMJ7TX
+argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=EmkI3eEe-bMdkQw6 
 
 ### Apps deployed with argocd can be deleted with cascade and without it. (cascade removes all the resources related to the application as well)
 To perform a non cascade remove: argocd app delete APPNAME --cascade=false
@@ -48,6 +48,12 @@ argocd --port-forward --port-forward-namespace=argocd app delete homesite
 ### To get argocd app 
 argocd --port-forward --port-forward-namespace=argocd app get homesite 
 
+### How to  deploy an app with argocd
+argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --revision argocdbranch --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
+argocd  app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path argocdbranch/homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
+
+### If your're getting a connection refused error with argocd include port forward in every argocd command 
+argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=UbtbfXjlatGMJ7TX
+
 ### References 
 https://argo-cd.readthedocs.io/en/latest/user-guide/app_deletion/
-
