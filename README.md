@@ -7,7 +7,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ### The password is auto-generated, we can get it with:
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-passwd:EmkI3eEe-bMdkQw6
+passwd:AqEpXBLFc51cxotQ
 
 ### Accessing the Argo CD Web UI
 kubectl port-forward svc/argocd-server -n argocd 8080:443
@@ -36,7 +36,7 @@ argocd login 127.0.0.1:8080 --username admin --password UbtbfXjlatGMJ7TX --insec
 argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 
 ### If your're getting a connection refused error with argocd include port forward in every argocd command 
-argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=EmkI3eEe-bMdkQw6 
+argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=AqEpXBLFc51cxotQ
 
 ### Apps deployed with argocd can be deleted with cascade and without it. (cascade removes all the resources related to the application as well)
 To perform a non cascade remove: argocd app delete APPNAME --cascade=false
@@ -49,8 +49,11 @@ argocd --port-forward --port-forward-namespace=argocd app delete homesite
 argocd --port-forward --port-forward-namespace=argocd app get homesite 
 
 ### How to  deploy an app with argocd
-argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --revision argocdbranch --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
+argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 argocd  app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path argocdbranch/homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
+
+### How to eploy an app on argocd using a different branch other than the main branch 
+argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --revision argocdbranch --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 
 ### If your're getting a connection refused error with argocd include port forward in every argocd command 
 argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=UbtbfXjlatGMJ7TX
