@@ -29,7 +29,7 @@ spec:
           protocol: TCP
 ---
 apiVersion: v1
-kind: Service23gshsfg
+kind: Service
 metadata:
   name: homesite
   namespace: homesite
@@ -47,8 +47,8 @@ spec:
     app: homesite
 
 ---
-apiVersion: networking.k8s.io/v12
-kind: Ingresssgshsgs
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: homesite
   namespace: homesite

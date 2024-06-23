@@ -65,7 +65,7 @@ First list your apps on argocd: argocd --port-forward --port-forward-namespace=a
 argocd --port-forward --port-forward-namespace=argocd app history <app-name>
 
 ### To rollback to last successful state(Rollback cannot be performed against an application with automated sync enabled.)
-argocd --port-forward --port-forward-namespace=argocd app rollback <app-name> - revision=<revision-number>
+argocd --port-forward --port-forward-namespace=argocd app rollback homesite 0
 argocd --port-forward --port-forward-namespace=argocd app rollback homesite - revision=0
 
 ### To enable auto-sync on argocd 
