@@ -48,15 +48,62 @@ argocd --port-forward --port-forward-namespace=argocd app delete homesite
 ### To get argocd app 
 argocd --port-forward --port-forward-namespace=argocd app get homesite 
 
-### How to  deploy an app with argocd
+### How to deploy an app with argocd
 argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 argocd  app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path argocdbranch/homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 
-### How to eploy an app on argocd using a different branch other than the main branch 
+### How to deploy an app on argocd using a different branch other than the main branch 
 argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --revision argocdbranch --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 
 ### If your're getting a connection refused error with argocd include port forward in every argocd command 
 argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=UbtbfXjlatGMJ7TX
+
+### To rollback an application on argocd 
+First list your apps on argocd: argocd --port-forward --port-forward-namespace=argocd app list 
+
+### To check deployment history 
+argocd --port-forward --port-forward-namespace=argocd app history <app-name>
+
+### To rollback to last successful state(Rollback cannot be performed against an application with automated sync enabled.)
+argocd --port-forward --port-forward-namespace=argocd app rollback <app-name> - revision=<revision-number>
+argocd --port-forward --port-forward-namespace=argocd app rollback homesite - revision=0
+
+### To enable auto-sync on argocd 
+argocd --port-forward --port-forward-namespace=argocd app set <APPNAME> --sync-policy automatedn 
+OR adding the following lines to the argocd application manifest:
+spec:
+  syncPolicy:
+    automated: {}
+
+### To enable auto-sync with auto-pruning (pruning automatically deletes the older resorces not longer defined in git after auto-sync has happened )
+argocd --port-forward --port-forward-namespace=argocd  app set <APPNAME> --auto-prune
+OR by setting the prune option to true in the automated sync policy using the following lines:
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+
+### By default, changes that are made to the live cluster will not trigger automated sync. To enable automatic sync when the live cluster's state deviates from the state defined in Git, run:
+argocd --port-forward --port-forward-namespace=argocd app set <APPNAME> --self-heal
+Or by setting the self heal option to true in the automated sync policy:
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### References 
 https://argo-cd.readthedocs.io/en/latest/user-guide/app_deletion/

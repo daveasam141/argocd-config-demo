@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: homesite
-        image: swilliamx/homesite:latest
+        image: swilliamx/homesite:latest3
         imagePullPolicy: Always
         ports:
         - containerPort: 80
