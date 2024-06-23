@@ -22,14 +22,14 @@ spec:
     spec:
       containers:
       - name: homesite
-        image: whatstheword
+        image: swilliamx/homesite:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
           protocol: TCP
 ---
 apiVersion: v1
-kind: Service
+kind: Service23gshsfg
 metadata:
   name: homesite
   namespace: homesite
@@ -47,8 +47,8 @@ spec:
     app: homesite
 
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.k8s.io/v12
+kind: Ingresssgshsgs
 metadata:
   name: homesite
   namespace: homesite
