@@ -7,7 +7,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ### The password is auto-generated, we can get it with:
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-passwd:AqEpXBLFc51cxotQ
+passwd:xe6gnQdDnJxIg8xA
 
 ### Accessing the Argo CD Web UI
 kubectl port-forward svc/argocd-server -n argocd 8080:443
@@ -24,19 +24,19 @@ echo username: "admin"
 echo password: $(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 
 ### To log into argocd thriugh command line to connect it with the ui so you can deploy from git with argo from CL instead of ui
-argocd login 127.0.0.1:8080 --username admin --password EmkI3eEe-bMdkQw6 --insecure
+argocd login 127.0.0.1:8080 --username admin --password xe6gnQdDnJxIg8xA --insecure
 
 ###  To sync an argocd deployment using cli 
 argocd --port-forward --port-forward-namespace=argocd app sync (appname)
 
 ### To log into argocd thriugh command line to connect it with the ui so you can deploy from git with argo from CL instead of ui
-argocd login 127.0.0.1:8080 --username admin --password UbtbfXjlatGMJ7TX --insecure
+argocd login 127.0.0.1:8080 --username admin --password xe6gnQdDnJxIg8xA --insecure
 
 ### How to  deploy an app with argocd
 argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/argocd-config-demo.git --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
 
 ### If your're getting a connection refused error with argocd include port forward in every argocd command 
-argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=AqEpXBLFc51cxotQ
+argocd --port-forward --port-forward-namespace=argocd login --username=admin --password=xe6gnQdDnJxIg8xA
 
 ### Apps deployed with argocd can be deleted with cascade and without it. (cascade removes all the resources related to the application as well)
 To perform a non cascade remove: argocd app delete APPNAME --cascade=false
@@ -92,14 +92,18 @@ spec:
       selfHeal: true
 
 
+### Deploying an application on argocd using helm charts 
+When deploying a Helm application Argo CD is using Helm only as a template mechanism. It runs helm template and then deploys the resulting manifests on the cluster instead of doing helm install. This means that you cannot use any Helm command to view/verify the application. It is fully managed by Argo CD
 
+### Create helm chart and push it to remote repo 
+repo url: https://github.com/daveasam141/helm-charts.git
 
+### Specify repo url in argocd app create command. The chart can also be installed in a declarative way using a manifest (see link pastedn on line 103)
+argocd --port-forward --port-forward-namespace=argocd app create homesite --repo https://github.com/daveasam141/helm-charts.git --path homesite --dest-server https://kubernetes.default.svc --dest-namespace argocd
+https://medium.com/@harshaljethwa19/deploying-an-application-to-argocd-using-helm-part-2-of-ci-cd-using-argocd-cd6a6c7a3047
 
-
-
-
-swilliamx/homesite:latest
-
+### You might need to manually sync the application if auto-sync isn't enabled 
+argocd --port-forward --port-forward-namespace=argocd app sync (appname)
 
 
 
